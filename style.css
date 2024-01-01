@@ -28,6 +28,8 @@ body {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+
+  pointer-events: none;
 }
 
 #prev-img-button, #next-img-button {
@@ -39,7 +41,14 @@ body {
   justify-content: center;
   align-items: center;
 
-  color: white
+  color: white;
+
+  pointer-events: all;
+}
+
+#image-controller {
+  width: 100%;
+  height: 100%;
 }
 
 #image-here {
