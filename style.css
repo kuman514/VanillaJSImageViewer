@@ -41,3 +41,11 @@ body {
 
   color: white
 }
+
+#image-here {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+
+  transform: scale(1);
+}
