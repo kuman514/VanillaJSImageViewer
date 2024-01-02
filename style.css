@@ -49,6 +49,7 @@ body {
 #image-controller {
   width: 100%;
   height: 100%;
+  cursor: grab;
 }
 
 #image-here {
@@ -57,4 +58,9 @@ body {
   object-fit: contain;
 
   transform: scale(1);
+
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
 }

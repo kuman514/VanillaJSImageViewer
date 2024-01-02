@@ -19,27 +19,51 @@ const imageInfo = [
 ];
 
 let zoom = 1;
+let x = 0;
+let y = 0;
 
 /**
  * @todo
  * Implement on-click prev/next button (Completed)
  * Implement expanding/shrinking image (Completed)
- * Implement centering selected image
- * Implement moving image
- * Implement reset size/position on-change image
+ * Implement centering selected image (Completed)
+ * Implement moving image (Completed)
+ * Implement reset size/position on-change image (Completed)
  */
+
+function applyImageState() {
+  document.querySelector('#image-here').style.transform = `scale(${zoom}) translate(${x}px, ${y}px)`;
+}
+
+function moveImage(dx, dy) {
+  x += dx * (1 / zoom);
+  y += dy * (1 / zoom);
+  applyImageState();
+}
 
 function loadImage(newImageIndex) {
   document.querySelector('#image-here').src = `photos/${imageInfo[newImageIndex].fileName}`;
 }
 
 function changeZoom(newZoom) {
-  document.querySelector('#image-here').style.transform = `scale(${newZoom})`;
+  zoom = newZoom;
+  applyImageState();
 }
 
-function resetZoom() {
+function resetImageState() {
   zoom = 1;
-  changeZoom(zoom);
+  x = 0;
+  y = 0;
+  applyImageState();
+}
+
+function handleOnMoveImage(event) {
+  if (!(event.buttons & 1)) {
+    return;
+  }
+
+  console.log(event.movementX, event.movementY);
+  moveImage(event.movementX, event.movementY);
 }
 
 function handleOnClickPrev() {
@@ -47,7 +71,7 @@ function handleOnClickPrev() {
   imageIndex--;
   imageIndex %= imageInfo.length;
 
-  resetZoom();
+  resetImageState();
   loadImage(imageIndex);
 }
 
@@ -55,7 +79,7 @@ function handleOnClickNext() {
   imageIndex++;
   imageIndex %= imageInfo.length;
 
-  resetZoom();
+  resetImageState();
   loadImage(imageIndex);
 }
 
@@ -69,7 +93,8 @@ function init() {
   loadImage(0);
   document.querySelector('#prev-img-button').addEventListener('click', handleOnClickPrev);
   document.querySelector('#next-img-button').addEventListener('click', handleOnClickNext);
-  document.querySelector('#image-controller').addEventListener('wheel', handleOnChangeZoom)
+  document.querySelector('#image-controller').addEventListener('wheel', handleOnChangeZoom);
+  document.querySelector('#image-controller').addEventListener('mousemove', handleOnMoveImage);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
